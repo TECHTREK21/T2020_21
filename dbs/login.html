@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Login</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+</head>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
+.input-color {
+  background-color: white;
+  width: 300px;
+  height: 400px;
+  padding: 50px;
+  margin-top: 100px;
+  margin-left: 200px;
+  float: left;
+}
+
+.input-color2 {
+  background-color: white;
+  width: 250px;
+  height: 200px;
+  padding: 50px;
+  margin-top: 200px;
+  margin-right: 300px;
+  float: right;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("dist/img/nature.jpg");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button3 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+}
+
+.button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+</style>
+<body onload="getPromotionMessage()">
+    <div class="bg">
+        <div class="input-color">
+            <h1 style="border-bottom: 5px solid red;">
+                Promotions</span>
+            </h1>
+            <h3>
+                <span class="text" id="summary0" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary1" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary2" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary3" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary4" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary5" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary6" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary7" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary8" value=""></span><br>
+            </h3>
+            <h3>
+                <span class="text" id="summary9" value=""></span><br>
+            </h3>
+        </div>
+        <div class="input-color2">
+            <h1 style="border-bottom: 5px solid red;">
+                Login</span>
+            </h1>
+            Username: <input id="username" type="text" name="FirstName" value=""><br>
+            <button class="button button3" onclick="login()">Login</button>
+            <span style="color: red" class="text" id="error" value=""></span><br>
+        </div>
+    </div>
+
+<script>
+function login(){
+
+var http = new XMLHttpRequest();
+var url = 'http://192.168.50.13:3000/login/';
+var params = {"username": document.getElementById("username").value};
+var body = JSON.stringify(params);
+http.open('POST', url, true);
+
+http.setRequestHeader('Content-type', 'application/json');
+
+http.send(body);
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+        console.log("Login: " + http.responseText);
+    }
+    var text = JSON.parse(this.response);
+    console.log(text.customerId);
+
+    if (text.status != "401")
+    {
+        sessionStorage.setItem("username", document.getElementById("username").value)
+        location.href = "C:/Users/munhe/Desktop/DBS/dbs/index.html" + "?username=" + sessionStorage.getItem("username");
+        //window.location.pathname = "C:/Users/munhe/Desktop/DBS/dbs/index.html";
+    }
+    else
+    {
+        document.getElementById("error").innerHTML = "Wrong Username!"
+    }
+}
+} 
+
+function getPromotionMessage(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "http://techtrek-api-gateway.ap-southeast-1.elasticbeanstalk.com/marketing", true);
+    xhttp.setRequestHeader("identity", "T20");
+    xhttp.setRequestHeader("token", "19b2bfa7-4b1e-45ff-81f7-7d05e073ac71");
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             console.log("Promotion Message: " + this.responseText);
+         }
+         var text = JSON.parse(this.response);
+
+        for(var i = 0; i < text.length; i++)
+        {
+            var obj = text[i];
+            console.log(obj.summary);
+            document.getElementById("summary" + i).innerHTML = obj.summary;
+        }
+    };
+}
+
+</script>
+</body>
+</html>

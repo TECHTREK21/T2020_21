@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Personal Banking | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <!-- Ion Slider -->
+  <link rel="stylesheet" href="plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+</head>
+<style>
+.imageSize{
+	width:	34px;
+	height: 32px;
+	float:	right;
+}
+
+.runImage{
+	width:	32px;
+	height:	49px;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.waterImage{
+	width:	41px;
+	height:	32px;
+}
+
+.smokeImage{
+	width:	32px;
+	height:	32px;
+}
+
+.wheelImage{
+	width:	20px;
+	height:	20px;
+	float:	left;
+	margin-right:	5px;
+}
+
+#chartCylinder {
+  width: 100%;
+  height: 400px;
+}
+
+#chartGradient {
+  width: 100%;
+  height: 400px;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 800px;
+}
+
+.areas {
+  text-align: center;
+  margin-bottom: 15px;
+  min-height: 95px;
+}
+
+.areas .value {
+  display: inline-block;
+  font-size: 1.3em;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.areas .value:hover {
+  background: #ecc;
+}
+
+.button3 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+}
+
+.button3:hover {
+  background-color: #f44336;
+  color: white;
+}
+</style>
+<body class="hold-transition sidebar-mini layout-fixed" onload="triggerColor(); runDash(); login(); transaction(); getBalance();">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class=" navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="index.html" class="nav-link">Dashboard</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="" class="nav-link">Product</a>
+      </li>
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <div class="image">
+          <img src="dist/img/dbs.jpg" class="img-size-50 img-circle mr-3" alt="User Image">
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- <div class="content-wrapper"> -->
+  <div>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark" style="padding-left: 100px;">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row" style="padding-left: 100px;">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>Welcome, </h3>
+                <h4 id="firstname" value=""></h4>
+
+                <span class="text" id="lastlogin" value=""></span><br>
+                <input type="hidden" id="accountid" name="accountid" value="">
+                <select id="account">
+                </select>
+              </div>
+              <a href="#" class="small-box-footer"></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6" style="margin-bottom: 100px;">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>Private Messages<sup style="font-size: 20px">%</sup></h3>
+
+                <h4>There are <span class="text" id="message" value=""></span> new messages.</h4>
+              </div>
+              <a href="#" class="small-box-footer"></a>
+            </div>
+          </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+          <!-- Left col -->
+          <!-- <section class="col-lg-7 connectedSortable">
+		  
+			<!-- Cylinder Gauge -->
+            <!-- <div class="card direct-chat direct-chat-primary">
+              <div class="card-header">
+				<img src="dist/img/wheel.png" class="wheelImage">
+                <h3 class="card-title">Level of Complete Cycle</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              
+			  <div class="areas">
+				<div class="area" style="display: none;">
+				</div>
+				<div id="chartCylinder"></div>
+			  </div>
+            </div> -->
+			
+          <!-- </section> -->
+          <!-- /.Left col -->
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <div style="padding-left: 100px;">
+            Start Date: <input type="date" id="startdate"><br>
+            End Date: <input type="date" id="enddate"><br>
+            <button class="button button3" onclick="transaction();">Submit</button>
+          </div>
+          <div id="chartdiv"></div>
+          <!-- right col -->
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2019 .</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.2-pre
+    </div>
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Ion Slider -->
+<script src="plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="dist/js/pages/dashboard.js"></script>
+<script src="dist/js/pages/dashboard3.js"></script>
+<!-- Bootstrap slider -->
+<script src="plugins/bootstrap-slider/bootstrap-slider.min.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script>
+var username = "";
+
+function login(){
+username = location.search.split("=").pop();
+console.log("name: " + username);
+
+var http = new XMLHttpRequest();
+var url = 'http://192.168.50.13:3000/login/';
+var params = {"username": username};
+var body = JSON.stringify(params);
+http.open('POST', url, true);
+
+http.setRequestHeader('Content-type', 'application/json');
+
+http.send(body);
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+        console.log("Login: " + http.responseText);
+    
+    var text = JSON.parse(this.response);
+    console.log(text);
+
+    document.getElementById("firstname").innerHTML = text.firstName;
+    document.getElementById("lastlogin").innerHTML = text.lastLogIn;
+    document.getElementById("message").innerHTML = text.newMessages;
+    var x = document.createElement("OPTION");
+    x.setAttribute("value", "account");
+    
+    
+    for (var i = 0; i < text.accounts.length; i++)
+    {
+      var obj = text.accounts[i];
+      var t = document.createTextNode(obj.displayName + " - " + obj.accountNumber);
+      x.appendChild(t);
+      document.getElementById("account").appendChild(x);
+      document.getElementById("accountid").value = obj.accountId;
+      //document.getElementById("account"+i).innerHTML = obj.displayName + " - " + obj.accountNumber;
+    }
+  }
+}
+}
+
+function getBalance(){
+  var http = new XMLHttpRequest();
+  var url = 'http://192.168.50.13:3000/accounts/current/79';
+  http.open('GET', url, true);
+  http.setRequestHeader('Content-type', 'application/json');
+
+  http.send();
+  http.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             console.log("account details: " + this.responseText);
+
+             var balance = JSON.parse(this.response);
+             console.log(balance.currency);
+             document.getElementById("balance").value = balance.currency + " " + balance.availableBalance;
+         }
+        };
+}
+
+function transaction(){
+var http = new XMLHttpRequest();
+var url = 'http://192.168.50.13:3000/accounts/history/' + document.getElementById("accountid").value;
+var params = {"start": document.getElementById("startdate").value, "end": document.getElementById("enddate").value};
+var body = JSON.stringify(params);
+http.open('POST', url, true);
+
+http.setRequestHeader('Content-type', 'application/json');
+
+http.send(body);
+
+http.onreadystatechange = function() {//Call a function when the state changes.
+    if(http.readyState == 4 && http.status == 200) {
+        console.log("Transaction History: " + http.responseText);
+
+        var text = JSON.parse(this.response);
+        console.log(text.summary);
+
+        am4core.ready(function() {
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+        chart.scrollbarX = new am4core.Scrollbar();
+
+        // Add data
+        chart.data = text.summary;
+
+        // Create axes
+        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "month";
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.minGridDistance = 30;
+        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+        categoryAxis.renderer.labels.template.rotation = 270;
+        categoryAxis.tooltip.disabled = true;
+        categoryAxis.renderer.minHeight = 110;
+
+        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.minWidth = 50;
+
+        // Create series
+        var series = chart.series.push(new am4charts.ColumnSeries());
+        series.sequencedInterpolation = true;
+        series.dataFields.valueY = "change";
+        series.dataFields.categoryX = "month";
+        series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+        series.columns.template.strokeWidth = 0;
+
+        series.tooltip.pointerOrientation = "vertical";
+
+        series.columns.template.column.cornerRadiusTopLeft = 10;
+        series.columns.template.column.cornerRadiusTopRight = 10;
+        series.columns.template.column.fillOpacity = 0.8;
+
+        // on hover, make corner radiuses bigger
+        var hoverState = series.columns.template.column.states.create("hover");
+        hoverState.properties.cornerRadiusTopLeft = 0;
+        hoverState.properties.cornerRadiusTopRight = 0;
+        hoverState.properties.fillOpacity = 1;
+
+        series.columns.template.adapter.add("fill", function(fill, target) {
+          return chart.colors.getIndex(target.dataItem.index);
+        });
+
+        // Cursor
+        chart.cursor = new am4charts.XYCursor();
+
+        }); // end am4core.ready()
+    }
+  }
+
+
+}
+
+function bar() {
+      var weight = document.getElementById("weight").value;
+	  var height = document.getElementById("height").value;
+	  height = height / 100;
+	  var bmi = weight/(height*height);
+	  bmi = bmi.toFixed(2);
+	  document.getElementById("BMI").innerHTML = "BMI: " + bmi;
+}
+
+function pictureChange()
+{
+	var path = document.location.pathname;
+	var directory = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+
+	if (document.getElementById("theImage").src == "file://" + directory + "/dist/img/smoke.jpg")
+	{
+		document.getElementById("theImage").src = "file://" + directory + "/dist/img/nonsmoke.jpg";
+		document.getElementById("theImage").value = "no";
+	}
+	else if (document.getElementById("theImage").src == "file://" + directory + "/dist/img/nonsmoke.jpg")
+	{
+		document.getElementById("theImage").src = "file://" + directory + "/dist/img/smoke.jpg";
+		document.getElementById("theImage").value = "yes";
+	}
+}
+
+$(function () {
+    $('#range_5').ionRangeSlider({
+      min     : 0,
+      max     : 10000,
+      type    : 'single',
+      step    : 1,
+      postfix : ' steps',
+      prettify: false,
+      hasGrid : true
+    })
+	$('#range_6').ionRangeSlider({
+      min     : 0,
+      max     : 8,
+      from    : 0,
+      type    : 'single',
+      step    : 1,
+      postfix : ' hours',
+      prettify: false,
+      hasGrid : true
+    })
+	$('#range_7').ionRangeSlider({
+      min     : 0,
+      max     : 8,
+      from    : 0,
+      type    : 'single',
+      step    : 1,
+      postfix : ' cups',
+      prettify: false,
+      hasGrid : true
+    })
+	$('#range_8').ionRangeSlider({
+      min     : 0,
+      max     : 10,
+      from    : 0,
+      type    : 'single',
+      step    : 1,
+      postfix : ' cups',
+      prettify: false,
+      hasGrid : true
+    })
+  })
+
+function generateWheel(){
+
+var alcohol = document.getElementsByName("choice");
+var alcoholChoice = "";
+
+var tobacco = document.getElementById("theImage").value;
+if (tobacco == "yes")
+{
+	tobacco = 10;
+}
+else
+{
+	tobacco = 0;
+}
+var alcoholChoice = document.getElementById("range_8").value;
+var water = document.getElementById("range_7").value;
+water = (water/8) * 10;
+var sleep = document.getElementById("range_6").value;
+sleep = (sleep/8) * 10;
+var steps = document.getElementById("range_5").value;
+steps = (steps/10000) * 10;
+
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_kelly);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.RadarChart);
+chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+chart.data = [ {
+  "category": "Alcohol",
+  "value": alcoholChoice,
+  "color": chart.colors.next()
+}, {
+  "category": "Tobacco",
+  "value": tobacco,
+  "color": chart.colors.next()
+}, {
+  "category": "Water Consumption",
+  "value": water,
+  "color": chart.colors.next()
+}, {
+  "category": "Sleeping Time",
+  "value": sleep,
+  "color": chart.colors.next()
+}, {
+  "category": "Steps",
+  "value": steps,
+  "color": chart.colors.next()
+}];
+
+chart.padding(20, 20, 20, 20);
+
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "category";
+categoryAxis.renderer.labels.template.location = 0.5;
+categoryAxis.renderer.tooltipLocation = 0.5;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.renderer.labels.template.disabled = true;
+valueAxis.min = 0;
+valueAxis.max = 10;
+valueAxis.renderer.minGridDistance = 10;
+
+var series = chart.series.push(new am4charts.RadarColumnSeries());
+series.columns.template.tooltipText = "{categoryX}: {valueY.value}";
+series.columns.template.width = am4core.percent(100);
+series.columns.template.strokeWidth = 0;
+series.columns.template.column.propertyFields.fill = "color";
+series.dataFields.categoryX = "category";
+series.dataFields.valueY = "value";
+
+/**
+ * Sets value for particular index
+ */
+function setValue(index, value) {
+  
+  // Set value
+  chart.data[index].value = value;
+  chart.invalidateRawData();
+  
+  // Reveal next question
+  var areas = document.getElementsByClassName("area");
+  for(var i = 0; i < areas.length; i++) {
+    areas[i].style.display = (index + 1) === i ? "block" : "none";
+  }
+  
+}
+
+}); 
+}
+
+function generateCylinder(){
+
+var alcohol = document.getElementsByName("choice");
+var alcoholChoice = "";
+
+var tobacco = document.getElementById("theImage").value;
+if (tobacco == "yes")
+{
+	tobacco = 100;
+}
+else
+{
+	tobacco = 0;
+}
+var alcoholChoice = document.getElementById("range_8").value;
+alcoholChoice = (alcoholChoice/10) * 100;
+var water = document.getElementById("range_7").value;
+water = (water/8) * 100;
+var sleep = document.getElementById("range_6").value;
+sleep = (sleep/8) * 100;
+var steps = document.getElementById("range_5").value;
+steps = (steps/10000) * 100;
+
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_kelly);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+let inputs = document.querySelectorAll("g");
+    for( let i = 1; i < inputs.length; i++){
+      //if(inputs[i].)
+        let input = inputs[i].children[2];
+        if(!inputs[i].children[2])
+          continue;
+        else if(input.innerHTML.indexOf("Chart created using amCharts library") == 0)
+        {
+          console.log(inputs[i]);
+          inputs[i].style.visibility = "hidden";
+        }
+    }
+
+// Create chart instance
+var chart = am4core.create("chartCylinder", am4charts.XYChart3D);
+
+chart.titles.create().text = "Total Cycle Complete";
+
+// Add data
+chart.data = [{
+  "category": "Alcohol",
+  "value1": alcoholChoice,
+  "value2": 100-alcoholChoice
+}, {
+  "category": "Tobacco",
+  "value1": tobacco,
+  "value2": 100-tobacco
+}, {
+  "category": "Water",
+  "value1": water,
+  "value2": 100-water
+}, {
+  "category": "Sleep",
+  "value1": sleep,
+  "value2": 100-sleep
+},
+{
+  "category": "Steps",
+  "value1": steps,
+  "value2": 100-steps
+}];
+
+// Create axes
+var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+categoryAxis.dataFields.category = "category";
+categoryAxis.renderer.grid.template.location = 0;
+categoryAxis.renderer.grid.template.strokeOpacity = 0;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+valueAxis.renderer.grid.template.strokeOpacity = 0;
+valueAxis.min = -10;
+valueAxis.max = 110;
+valueAxis.strictMinMax = true;
+valueAxis.renderer.baseGrid.disabled = true;
+valueAxis.renderer.labels.template.adapter.add("text", function(text) {
+  if ((text > 100) || (text < 0)) {
+    return "";
+  }
+  else {
+    return text + "%";
+  }
+})
+
+// Create series
+var series1 = chart.series.push(new am4charts.ConeSeries());
+series1.dataFields.valueY = "value1";
+series1.dataFields.categoryX = "category";
+series1.columns.template.width = am4core.percent(80);
+series1.columns.template.fillOpacity = 0.9;
+series1.columns.template.strokeOpacity = 1;
+series1.columns.template.strokeWidth = 2;
+
+var series2 = chart.series.push(new am4charts.ConeSeries());
+series2.dataFields.valueY = "value2";
+series2.dataFields.categoryX = "category";
+series2.stacked = true;
+series2.columns.template.width = am4core.percent(80);
+series2.columns.template.fill = am4core.color("#000");
+series2.columns.template.fillOpacity = 0.1;
+series2.columns.template.stroke = am4core.color("#000");
+series2.columns.template.strokeOpacity = 0.2;
+series2.columns.template.strokeWidth = 2;
+
+});
+}
+
+function generateGauge(){
+
+var tobacco = document.getElementById("theImage").value;
+if (tobacco == "yes")
+{
+	tobacco = 25;
+}
+else
+{
+	tobacco = 0;
+}
+
+var alcoholChoice = document.getElementById("range_8").value;
+if (alcoholChoice > 1 && alcoholChoice < 5)
+{
+	alcoholChoice = 15;
+}
+else if (alcoholChoice > 5 && alcoholChoice <= 10)
+{
+	alcoholChoice = 25;
+}
+else
+{
+	alcoholChoice = 0;
+}
+
+var water = document.getElementById("range_7").value;
+water = (water/8) * 100;
+var sleep = document.getElementById("range_6").value;
+sleep = (sleep/8) * 100;
+var steps = document.getElementById("range_5").value;
+steps = (steps/10000) * 100;
+
+var total = water + sleep + steps;
+var totalDisplay = (total/300) * 100;
+alcoholChoice = alcoholChoice.toFixed(2);
+tobacco = tobacco.toFixed(2);
+totalDisplay = totalDisplay - alcoholChoice - tobacco;
+totalDisplay = totalDisplay.toFixed(2);
+totalDisplay = parseFloat(totalDisplay);
+
+if (totalDisplay < 0)
+{
+	totalDisplay = 0;
+}
+
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_kelly);
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var inputs = document.querySelectorAll("g");
+    for( var i = 1; i < inputs.length; i++){
+      //if(inputs[i].)
+        var input = inputs[i].children[2];
+        if(!inputs[i].children[2])
+          continue;
+        else if(input.innerHTML.indexOf("Chart created using amCharts library") == 0)
+        {
+          console.log(inputs[i]);
+          inputs[i].style.visibility = "hidden";
+        }
+    }
+
+// create chart
+var chart = am4core.create("chartGradient", am4charts.GaugeChart);
+chart.innerRadius = -15;
+
+var axis = chart.xAxes.push(new am4charts.ValueAxis());
+axis.min = 0;
+axis.max = 100;
+axis.strictMinMax = true;
+
+var colorSet = new am4core.ColorSet();
+
+var gradient = new am4core.LinearGradient();
+gradient.stops.push({color:am4core.color("red")})
+gradient.stops.push({color:am4core.color("yellow")})
+gradient.stops.push({color:am4core.color("green")})
+
+axis.renderer.line.stroke = gradient;
+axis.renderer.line.strokeWidth = 15;
+axis.renderer.line.strokeOpacity = 1;
+
+axis.renderer.grid.template.disabled = true;
+
+var label = chart.radarContainer.createChild(am4core.Label);
+label.isMeasured = false;
+label.fontSize = 13;
+label.x = am4core.percent(50);
+label.y = am4core.percent(100);
+label.horizontalCenter = "middle";
+label.verticalCenter = "bottom";
+if(totalDisplay <= 20)
+{
+	label.text = totalDisplay + "% Very Unhealthy";
+}
+else if (totalDisplay > 20 && totalDisplay <= 40)
+{
+	label.text = totalDisplay + "% Unhealthy";
+}
+else if (totalDisplay > 40 && totalDisplay <= 50)
+{
+	label.text = totalDisplay + "% Unsafe Zone";
+}
+else if (totalDisplay > 50 && totalDisplay <= 70)
+{
+	label.text = totalDisplay + "% Normal";
+}
+else if (totalDisplay > 70 && totalDisplay <= 80)
+{
+	label.text = totalDisplay + "% Healthy";
+}
+else
+{
+	label.text = totalDisplay + "% Very Healthy";
+}
+
+var axis2 = chart.xAxes.push(new am4charts.ValueAxis());
+axis2.min = 0;
+axis2.max = 100;
+axis2.renderer.innerRadius = 10
+axis2.strictMinMax = true;
+axis2.renderer.labels.template.disabled = true;
+axis2.renderer.ticks.template.disabled = true;
+axis2.renderer.grid.template.disabled = true;
+
+var hand = chart.hands.push(new am4charts.ClockHand());
+hand.axis = axis2;
+hand.innerRadius = am4core.percent(20);
+hand.startWidth = 10;
+hand.pin.disabled = true;
+hand.value = totalDisplay;
+document.getElementById("dataDisplay").innerHTML = totalDisplay;
+runDash();
+
+if (totalDisplay <= 40)
+{
+	document.getElementById("risk").innerHTML = "You have increased risk of getting:";
+	document.getElementById("risk1").innerHTML = "Diabetes";
+	document.getElementById("risk2").innerHTML = "Ischemic Heart Disease";
+	document.getElementById("risk3").innerHTML = "Stroke";
+	document.getElementById("risk4").innerHTML = "Lung Cancer";
+	triggerColor();
+}
+else
+{
+	document.getElementById("risk").innerHTML = "";
+	document.getElementById("risk1").innerHTML = "";
+	document.getElementById("risk2").innerHTML = "";
+	document.getElementById("risk3").innerHTML = "";
+	document.getElementById("risk4").innerHTML = "";
+	triggerColor();
+}
+
+<!-- hand.showValue(totalDisplay); -->
+}); 
+}
+</script>
+</body>
+</html>
